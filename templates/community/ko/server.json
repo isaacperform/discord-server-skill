@@ -1,0 +1,114 @@
+{
+  "version": 1,
+  "server": {
+    "name": "내 커뮤니티",
+    "description": "같은 관심사를 가진 사람들이 모여 묻고, 나누고, 자랑하는 곳",
+    "locale": "ko",
+    "community": true,
+    "rulesChannel": "welcome",
+    "updatesChannel": "ops-log",
+    "safetyChannel": "ops-log",
+    "systemChannel": "lounge",
+    "everyone": "open",
+    "notifications": "mentions",
+    "systemChannelFlags": 52
+  },
+  "bot": {
+    "description": "커뮤니티 운영 봇 — 공지·초대·질문 정리"
+  },
+  "vars": {
+    "site": "https://example.com"
+  },
+  "roles": {
+    "staff": { "name": "🛠️ 운영진", "color": "#F2A65A", "hoist": true, "staff": true, "giveOwner": true, "permissions": "moderator" }
+  },
+  "categories": [
+    {
+      "key": "start",
+      "name": "📌 시작",
+      "channels": [
+        { "key": "welcome", "name": "👋환영-규칙", "type": "text", "readonly": true, "topic": "처음 오셨다면 아래 안내와 규칙부터 읽어 주세요." },
+        { "key": "notice", "name": "📣공지", "type": "announcement", "readonly": true, "topic": "운영진 공지·이벤트 소식." }
+      ]
+    },
+    {
+      "key": "community",
+      "name": "💬 커뮤니티",
+      "channels": [
+        { "key": "introductions", "name": "🙋자기소개", "type": "text", "slowmode": 60, "topic": "어떤 일을 하는지, 여기서 뭘 얻고 싶은지 한두 줄로 소개해 주세요." },
+        { "key": "lounge", "name": "💬잡담", "type": "text", "topic": "인사·잡담·아무 이야기." },
+        {
+          "key": "qna",
+          "name": "❓질문-답변",
+          "type": "forum",
+          "topic": "질문 하나 = 글 하나. 상황과 지금까지 해 본 것을 같이 적어 주시면 답이 빨라요. 비슷한 질문이 있는지 검색부터!\n해결되면 ✅ 해결됨 태그가 붙어요.",
+          "tags": [
+            { "name": "질문" }, { "name": "도움 요청" }, { "name": "토론" },
+            { "name": "해결됨", "emoji": "✅", "staffOnly": true }
+          ]
+        },
+        { "key": "showcase", "name": "🎉자랑-공유", "type": "text", "topic": "만든 것·이룬 것·배운 것을 자랑해 주세요. 서로에게 제일 큰 자극이 돼요." },
+        {
+          "key": "suggestions",
+          "name": "💡건의함",
+          "type": "forum",
+          "reaction": "👍",
+          "topic": "이 커뮤니티가 더 좋아지려면? 건의 하나 = 글 하나. 공감하면 👍.",
+          "tags": [
+            { "name": "건의" },
+            { "name": "검토중", "emoji": "🔎", "staffOnly": true },
+            { "name": "반영됨", "emoji": "✅", "staffOnly": true }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "library",
+      "name": "📚 자료",
+      "channels": [
+        {
+          "key": "resources",
+          "name": "📚자료실",
+          "type": "forum",
+          "readonly": "comments",
+          "sort": "created",
+          "topic": "운영진이 올리는 가이드·템플릿·영상 모음. 질문은 각 글 아래 댓글로 남겨 주세요.",
+          "tags": [
+            { "name": "가이드" }, { "name": "템플릿" }, { "name": "영상" }, { "name": "기타" },
+            { "name": "NEW", "emoji": "🆕", "staffOnly": true }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "voice",
+      "name": "🔊 음성",
+      "channels": [
+        { "key": "voice-lounge", "name": "🎧라운지", "type": "voice" }
+      ]
+    },
+    {
+      "key": "ops",
+      "name": "🛠️ 운영",
+      "visibleTo": ["staff"],
+      "channels": [
+        { "key": "ops-log", "name": "🤖운영-로그", "type": "text", "topic": "운영진 전용. 봇 기록과 디스코드 커뮤니티 안내가 여기로 와요." }
+      ]
+    }
+  ],
+  "messages": [
+    { "key": "welcome", "channel": "welcome", "file": "content/welcome.md" }
+  ],
+  "welcomeScreen": {
+    "description": "반가워요! 자기소개 한 줄이면 바로 친구가 생겨요.",
+    "channels": [
+      { "channel": "welcome", "emoji": "👋", "description": "안내와 규칙" },
+      { "channel": "introductions", "emoji": "🙋", "description": "자기소개 한 줄" },
+      { "channel": "qna", "emoji": "❓", "description": "궁금한 건 여기로" },
+      { "channel": "resources", "emoji": "📚", "description": "가이드·템플릿 모음" },
+      { "channel": "lounge", "emoji": "💬", "description": "가볍게 수다" }
+    ]
+  },
+  "invite": { "channel": "welcome", "roles": [], "maxUses": 0, "days": 0 },
+  "feedback": ["qna", "suggestions"]
+}

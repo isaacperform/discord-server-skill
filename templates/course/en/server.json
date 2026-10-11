@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "server": {
+    "name": "My Class",
+    "description": "Members-only space for the course: lessons, homework, Q&A and live sessions",
+    "locale": "en-US",
+    "community": true,
+    "rulesChannel": "welcome",
+    "updatesChannel": "ops-log",
+    "safetyChannel": "ops-log",
+    "systemChannel": "lounge",
+    "everyone": "safe",
+    "notifications": "mentions",
+    "systemChannelFlags": 52
+  },
+  "bot": {
+    "description": "Class ops bot: announcements, invites and homework triage"
+  },
+  "vars": {
+    "site": "https://example.com"
+  },
+  "roles": {
+    "staff": { "name": "🛠️ Team", "color": "#F2A65A", "hoist": true, "staff": true, "giveOwner": true, "permissions": "moderator" },
+    "student": { "name": "🎓 Student", "color": "#3BA9F0", "hoist": true }
+  },
+  "categories": [
+    {
+      "key": "start",
+      "name": "📌 Start Here",
+      "channels": [
+        { "key": "welcome", "name": "👋welcome", "type": "text", "readonly": true, "topic": "New here? Read the guide below first." },
+        { "key": "notice", "name": "📣announcements", "type": "announcement", "readonly": true, "topic": "Only the essentials: schedule, live sessions, deadlines." }
+      ]
+    },
+    {
+      "key": "class",
+      "name": "📚 Class",
+      "visibleTo": ["student"],
+      "channels": [
+        { "key": "curriculum", "name": "🗺️curriculum", "type": "text", "readonly": true, "topic": "The full lesson plan. Start here and follow along." },
+        {
+          "key": "lessons",
+          "name": "📚lessons",
+          "type": "forum",
+          "readonly": "comments",
+          "sort": "created",
+          "topic": "One lesson = one post. The team posts; ask questions and share notes in the comments.",
+          "tags": [
+            { "name": "Lesson" }, { "name": "Material" }, { "name": "Recording" }, { "name": "Assignment" },
+            { "name": "NEW", "emoji": "🆕", "staffOnly": true }
+          ]
+        },
+        {
+          "key": "homework",
+          "name": "📝homework",
+          "type": "forum",
+          "topic": "One assignment = one post. Title it \"[Assignment] Your name\". Feedback goes in the same post.",
+          "tags": [
+            { "name": "Submitted" }, { "name": "Resubmitted" },
+            { "name": "Reviewing", "emoji": "👀", "staffOnly": true },
+            { "name": "Feedback done", "emoji": "✅", "staffOnly": true }
+          ]
+        },
+        {
+          "key": "qna",
+          "name": "❓questions",
+          "type": "forum",
+          "topic": "Lesson and homework questions go here. Mention the lesson and timestamp for faster answers. Search first!\nSolved posts get the ✅ Solved tag.",
+          "tags": [
+            { "name": "Lesson" }, { "name": "Homework" }, { "name": "Other" },
+            { "name": "Solved", "emoji": "✅", "staffOnly": true }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "together",
+      "name": "💬 Community",
+      "visibleTo": ["student"],
+      "channels": [
+        { "key": "lounge", "name": "💬lounge", "type": "text", "topic": "Say hi, chat, find study buddies." },
+        { "key": "wins", "name": "🏆wins", "type": "text", "topic": "Show the results of putting the lessons to work. It's the best motivation for the next cohort." },
+        { "key": "live", "name": "🎥live-class", "type": "voice" }
+      ]
+    },
+    {
+      "key": "ops",
+      "name": "🛠️ Team",
+      "visibleTo": ["staff"],
+      "channels": [
+        { "key": "ops-log", "name": "🤖ops-log", "type": "text", "topic": "Team only. Bot logs and Discord community notices land here." }
+      ]
+    }
+  ],
+  "messages": [
+    { "key": "welcome", "channel": "welcome", "file": "content/welcome.md" },
+    { "key": "curriculum", "channel": "curriculum", "file": "content/curriculum.md" }
+  ],
+  "welcomeScreen": {
+    "description": "Welcome to the class! Start with the curriculum.",
+    "channels": [
+      { "channel": "welcome", "emoji": "👋", "description": "How to start" },
+      { "channel": "curriculum", "emoji": "🗺️", "description": "Full lesson plan" },
+      { "channel": "lessons", "emoji": "📚", "description": "Lessons" },
+      { "channel": "qna", "emoji": "❓", "description": "Ask here" },
+      { "channel": "lounge", "emoji": "💬", "description": "Meet your classmates" }
+    ]
+  },
+  "invite": { "channel": "welcome", "roles": ["student"], "maxUses": 1, "days": 7 },
+  "feedback": ["qna", "homework"]
+}

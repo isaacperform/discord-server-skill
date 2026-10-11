@@ -1,0 +1,15 @@
+{
+  "name": "discord-server-skill",
+  "description": "Discord server setup and operations skill for Claude Code",
+  "owner": {
+    "name": "Isaac Kim (isaacperform)",
+    "url": "https://github.com/isaacperform"
+  },
+  "plugins": [
+    {
+      "name": "discord-server",
+      "source": "./",
+      "description": "Create and run a Discord server by talking to Claude: channels, roles, forums, permissions, role-granting invites, announcements, feedback triage, webhooks."
+    }
+  ]
+}

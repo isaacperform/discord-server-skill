@@ -1,0 +1,41 @@
+{
+  "name": "discord-server-skill",
+  "version": "1.0.0",
+  "description": "Claude Code skill: create and run a Discord server by talking to Claude — channels, roles, forums, permissions, role-granting invites, announcements, feedback triage, webhooks. Zero dependencies.",
+  "type": "module",
+  "bin": {
+    "discord-server": "scripts/discord.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test test/discord.test.mjs"
+  },
+  "files": [
+    "SKILL.md",
+    "scripts",
+    "templates",
+    "docs",
+    ".claude-plugin",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "claude-code",
+    "agent-skills",
+    "skill",
+    "discord",
+    "discord-bot",
+    "community",
+    "closed-beta"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isaacperform/discord-server-skill.git"
+  },
+  "homepage": "https://github.com/isaacperform/discord-server-skill#readme",
+  "bugs": "https://github.com/isaacperform/discord-server-skill/issues",
+  "license": "SEE LICENSE IN LICENSE",
+  "author": "isaacperform"
+}

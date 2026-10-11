@@ -1,0 +1,39 @@
+Discord Server Skill License
+Copyright (c) 2026 Isaac Kim (isaacperform)
+
+한국어 (요약)
+-------------
+1. 허용: 이 스킬을 개인적 또는 업무적(상업적 포함) 목적으로 자유롭게 사용하고,
+   자신의 필요에 맞게 수정할 수 있습니다. 이 스킬로 만든 디스코드 서버와 그 운영은
+   전적으로 사용자의 것입니다.
+2. 제한: 이 스킬 또는 그 수정본을 유료로 판매하거나, 별도의 상품/패키지로
+   재배포하는 것은 저작권자의 서면 허락 없이는 할 수 없습니다.
+   개인 사용 목적으로 팀 내부에 복사하는 것은 재배포로 보지 않습니다.
+3. 표기: 재배포 허락을 받은 경우 이 라이선스 문구와 저작권 표시를 유지해야 합니다.
+4. 면책: 이 스킬은 "있는 그대로" 제공됩니다. 스킬을 실행하여 발생하는 디스코드 서버의
+   변경(채널·역할·권한·메시지의 생성, 수정, 삭제 포함), 데이터 손실, 봇 토큰 유출 등
+   어떠한 결과에 대해서도 저작권자는 책임지지 않습니다. 디스코드 서버와 봇 계정에 대한
+   모든 변경의 책임은 스킬을 실행하는 사용자에게 있으며, 사용자는 Discord 의 서비스
+   약관과 개발자 정책을 지켜야 합니다.
+
+English
+-------
+1. Permission is granted to use this skill for personal or business purposes,
+   including commercial use, and to modify it for your own needs. Discord servers
+   you build and run with it are entirely yours.
+2. You may not sell this skill or any derivative of it, or redistribute it as a
+   separate product or package, without prior written permission from the
+   copyright holder. Copying it within your own team for internal use is not
+   considered redistribution.
+3. If redistribution is permitted, this license text and the copyright notice
+   must be retained.
+4. THE SKILL IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND. THE COPYRIGHT
+   HOLDER IS NOT LIABLE FOR ANY CHANGES TO DISCORD SERVERS (INCLUDING CREATION,
+   MODIFICATION OR DELETION OF CHANNELS, ROLES, PERMISSIONS OR MESSAGES), DATA
+   LOSS, LEAKED BOT TOKENS, OR OTHER OUTCOMES RESULTING FROM RUNNING THIS SKILL.
+   ALL CHANGES MADE TO A DISCORD SERVER OR BOT ACCOUNT ARE THE SOLE
+   RESPONSIBILITY OF THE USER RUNNING IT, WHO MUST COMPLY WITH DISCORD'S TERMS
+   OF SERVICE AND DEVELOPER POLICY.
+
+This skill is an independent creation and is not affiliated with, endorsed by,
+or an official product of Discord or Anthropic.

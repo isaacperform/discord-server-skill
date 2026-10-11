@@ -1,0 +1,8 @@
+node_modules/
+.DS_Store
+# 실수로 저장소 안에 프로필을 만들었을 때 토큰·멤버 메모가 올라가지 않게
+.env
+.env.*
+invites.json
+state.json
+*.bak

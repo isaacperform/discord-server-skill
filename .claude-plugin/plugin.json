@@ -1,0 +1,13 @@
+{
+  "name": "discord-server",
+  "displayName": "Discord Server",
+  "version": "1.0.0",
+  "description": "Create and run a Discord server by talking to Claude: channels, roles, forums, permissions, role-granting invites, announcements, feedback triage, webhooks. Zero dependencies, no hosting.",
+  "author": {
+    "name": "Isaac Kim (isaacperform)",
+    "url": "https://github.com/isaacperform"
+  },
+  "homepage": "https://github.com/isaacperform/discord-server-skill",
+  "repository": "https://github.com/isaacperform/discord-server-skill",
+  "keywords": ["discord", "discord-bot", "community", "closed-beta", "server-setup"]
+}

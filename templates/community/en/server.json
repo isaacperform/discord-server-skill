@@ -1,0 +1,114 @@
+{
+  "version": 1,
+  "server": {
+    "name": "My Community",
+    "description": "A place for people who share an interest to ask, share and show off",
+    "locale": "en-US",
+    "community": true,
+    "rulesChannel": "welcome",
+    "updatesChannel": "ops-log",
+    "safetyChannel": "ops-log",
+    "systemChannel": "lounge",
+    "everyone": "open",
+    "notifications": "mentions",
+    "systemChannelFlags": 52
+  },
+  "bot": {
+    "description": "Community ops bot: announcements, invites and Q&A triage"
+  },
+  "vars": {
+    "site": "https://example.com"
+  },
+  "roles": {
+    "staff": { "name": "🛠️ Team", "color": "#F2A65A", "hoist": true, "staff": true, "giveOwner": true, "permissions": "moderator" }
+  },
+  "categories": [
+    {
+      "key": "start",
+      "name": "📌 Start Here",
+      "channels": [
+        { "key": "welcome", "name": "👋welcome-and-rules", "type": "text", "readonly": true, "topic": "New here? Read the guide and rules below first." },
+        { "key": "notice", "name": "📣announcements", "type": "announcement", "readonly": true, "topic": "News and events from the team." }
+      ]
+    },
+    {
+      "key": "community",
+      "name": "💬 Community",
+      "channels": [
+        { "key": "introductions", "name": "🙋introductions", "type": "text", "slowmode": 60, "topic": "Tell us what you do and what you hope to get here, in a line or two." },
+        { "key": "lounge", "name": "💬lounge", "type": "text", "topic": "Say hi, chat about anything." },
+        {
+          "key": "qna",
+          "name": "❓questions",
+          "type": "forum",
+          "topic": "One question = one post. Share your situation and what you've tried; answers come faster. Search first!\nSolved posts get the ✅ Solved tag.",
+          "tags": [
+            { "name": "Question" }, { "name": "Help wanted" }, { "name": "Discussion" },
+            { "name": "Solved", "emoji": "✅", "staffOnly": true }
+          ]
+        },
+        { "key": "showcase", "name": "🎉show-and-tell", "type": "text", "topic": "Show what you made, shipped or learned. It's the best motivation for everyone." },
+        {
+          "key": "suggestions",
+          "name": "💡suggestions",
+          "type": "forum",
+          "reaction": "👍",
+          "topic": "How could this community get better? One suggestion = one post. Agree? Hit 👍.",
+          "tags": [
+            { "name": "Suggestion" },
+            { "name": "Reviewing", "emoji": "🔎", "staffOnly": true },
+            { "name": "Done", "emoji": "✅", "staffOnly": true }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "library",
+      "name": "📚 Library",
+      "channels": [
+        {
+          "key": "resources",
+          "name": "📚resources",
+          "type": "forum",
+          "readonly": "comments",
+          "sort": "created",
+          "topic": "Guides, templates and videos from the team. Ask questions in the comments of each post.",
+          "tags": [
+            { "name": "Guide" }, { "name": "Template" }, { "name": "Video" }, { "name": "Other" },
+            { "name": "NEW", "emoji": "🆕", "staffOnly": true }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "voice",
+      "name": "🔊 Voice",
+      "channels": [
+        { "key": "voice-lounge", "name": "🎧Lounge", "type": "voice" }
+      ]
+    },
+    {
+      "key": "ops",
+      "name": "🛠️ Team",
+      "visibleTo": ["staff"],
+      "channels": [
+        { "key": "ops-log", "name": "🤖ops-log", "type": "text", "topic": "Team only. Bot logs and Discord community notices land here." }
+      ]
+    }
+  ],
+  "messages": [
+    { "key": "welcome", "channel": "welcome", "file": "content/welcome.md" }
+  ],
+  "welcomeScreen": {
+    "description": "Glad you're here! One line in introductions and you'll make friends fast.",
+    "channels": [
+      { "channel": "welcome", "emoji": "👋", "description": "Guide and rules" },
+      { "channel": "introductions", "emoji": "🙋", "description": "Introduce yourself" },
+      { "channel": "qna", "emoji": "❓", "description": "Ask anything" },
+      { "channel": "resources", "emoji": "📚", "description": "Guides and templates" },
+      { "channel": "lounge", "emoji": "💬", "description": "Hang out" }
+    ]
+  },
+  "invite": { "channel": "welcome", "roles": [], "maxUses": 0, "days": 0 },
+  "feedback": ["qna", "suggestions"]
+}
