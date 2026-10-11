@@ -4,6 +4,7 @@
 > 그 뒤로는 공지·초대·피드백 정리를 대화로 시키는 스킬입니다. 의존성 0 · 서버비 0 · 토큰은 내 컴퓨터에만.
 
 <p>
+  <a href="https://github.com/isaacperform/discord-server-skill/actions/workflows/test.yml"><img alt="test" src="https://github.com/isaacperform/discord-server-skill/actions/workflows/test.yml/badge.svg"></a>
   <img alt="Claude Code skill" src="https://img.shields.io/badge/Claude%20Code-skill-D97757">
   <img alt="Agent Skills 표준" src="https://img.shields.io/badge/SKILL.md-agent%20skills-blue">
   <img alt="Node 18+" src="https://img.shields.io/badge/node-%E2%89%A518-339933">
