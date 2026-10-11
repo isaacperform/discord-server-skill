@@ -2,7 +2,8 @@
 // 진짜 서버에서의 첫 실행이 곧 스모크 테스트다. 여기서는 흐름·멱등·안전장치·막힘 안내를 지킨다.
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { existsSync, mkdtempSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, readFileSync, readdirSync, statSync, symlinkSync, writeFileSync } from 'node:fs'
+import { execFileSync } from 'node:child_process'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -132,6 +133,13 @@ test('accessRules — visibleTo 에 staff 는 늘 들어가고, readonly "commen
   assert.ok(targets.includes('staff') && targets.includes('m'))
   const everyoneDeny = rules.filter(([t]) => t === '@everyone').flatMap(([, r]) => r.deny ?? [])
   assert.ok(everyoneDeny.includes('SEND_MESSAGES') && !everyoneDeny.includes('SEND_MESSAGES_IN_THREADS'))
+})
+
+test('설치 경로가 심링크여도(~/.claude/skills → 작업 폴더) CLI 가 돈다 — Node 는 메인 파일을 실제 경로로 읽는다', () => {
+  const link = join(mkdtempSync(join(tmpdir(), 'skill-link-')), 'discord-server')
+  symlinkSync(ROOT, link, process.platform === 'win32' ? 'junction' : 'dir')
+  const out = execFileSync(process.execPath, [join(link, 'scripts', 'discord.mjs'), 'help'], { encoding: 'utf8' })
+  assert.match(out, /discord-server .* 말로 디스코드 서버를/)
 })
 
 // ---------- 처음부터 끝까지 (클로즈베타) ----------

@@ -9,11 +9,11 @@
 // - 봇은 서버를 만들 수 없다 (디스코드가 2025-07-15 POST /guilds 폐지). 서버 생성만 사람이 한다.
 
 import {
-  chmodSync, cpSync, existsSync, mkdirSync, readdirSync, readFileSync, renameSync, statSync, writeFileSync,
+  chmodSync, cpSync, existsSync, mkdirSync, readdirSync, readFileSync, realpathSync, renameSync, statSync, writeFileSync,
 } from 'node:fs'
 import { homedir } from 'node:os'
 import { dirname, extname, join, resolve } from 'node:path'
-import { fileURLToPath, pathToFileURL } from 'node:url'
+import { fileURLToPath } from 'node:url'
 import { API_BASE, ApiError, HdError, HINT_NETWORK, createApi, fail, installUrl } from './lib/api.mjs'
 import { clearClipboard, looksLikeBotToken, promptHidden, readClipboard } from './lib/clipboard.mjs'
 import { ADMIN, permNames } from './lib/perms.mjs'
@@ -1434,7 +1434,15 @@ export async function run(argv) {
   ctx.saveState()
 }
 
-if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.meta.url) {
+// 직접 실행됐을 때만 돈다. 심링크(~/.claude/skills/…)·npx 로 실행하면 Node 는 이 파일을 실제 경로로 읽으므로 둘 다 실제 경로로 비교한다
+const isMain = (() => {
+  try {
+    return realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url))
+  } catch {
+    return false
+  }
+})()
+if (isMain) {
   run(process.argv.slice(2)).catch((e) => {
     console.error(`❌ ${e instanceof HdError || e instanceof ApiError ? e.message : e.stack}`)
     process.exit(1)
