@@ -20,24 +20,55 @@
     "app": "https://example.com"
   },
   "roles": {
-    "staff": { "name": "🛠️ Team", "color": "#F2A65A", "hoist": true, "staff": true, "giveOwner": true, "permissions": "moderator" },
-    "tester": { "name": "🧪 Beta Tester", "color": "#7E82DF", "hoist": true }
+    "staff": {
+      "name": "🛠️ Team",
+      "color": "#F2A65A",
+      "hoist": true,
+      "staff": true,
+      "giveOwner": true,
+      "permissions": "moderator"
+    },
+    "tester": {
+      "name": "🧪 Beta Tester",
+      "color": "#7E82DF",
+      "hoist": true
+    }
   },
   "categories": [
     {
       "key": "start",
       "name": "📌 Start Here",
       "channels": [
-        { "key": "welcome", "name": "👋welcome", "type": "text", "readonly": true, "topic": "New here? Read the pinned guide below first." },
-        { "key": "notice", "name": "📣announcements", "type": "announcement", "readonly": true, "topic": "Only the things you need to see: schedule, maintenance, surveys." }
+        {
+          "key": "welcome",
+          "name": "👋welcome",
+          "type": "text",
+          "readonly": true,
+          "topic": "New here? Read the pinned guide below first."
+        },
+        {
+          "key": "notice",
+          "name": "📣announcements",
+          "type": "announcement",
+          "readonly": true,
+          "topic": "Only the things you need to see: schedule, maintenance, surveys."
+        }
       ]
     },
     {
       "key": "beta",
       "name": "🧪 Beta",
-      "visibleTo": ["tester"],
+      "visibleTo": [
+        "tester"
+      ],
       "channels": [
-        { "key": "updates", "name": "🚀changelog", "type": "announcement", "readonly": true, "topic": "What changed in every release. When your bug report gets fixed, we'll shout you out here." },
+        {
+          "key": "updates",
+          "name": "🚀changelog",
+          "type": "announcement",
+          "readonly": true,
+          "topic": "What changed in every release. When your bug report gets fixed, we'll shout you out here."
+        },
         {
           "key": "bugs",
           "name": "🐛bug-reports",
@@ -45,11 +76,41 @@
           "reaction": "👍",
           "topic": "One bug = one post. Title it \"[Screen] What happened\", e.g. [Login] Nothing happens when I click the button\n\nIn the post, just three things:\n1. Where: screen name, URL\n2. What you did: the steps\n3. What you saw: a screenshot is perfect\n\nSeeing the same issue? Hit 👍. The team sets the status tags (📥 Received · 🔍 Investigating · ✅ Fixed) and replies here when it's fixed.",
           "tags": [
-            { "name": "Install" }, { "name": "Integration" }, { "name": "UI" }, { "name": "Data" }, { "name": "Other" },
-            { "name": "Received", "emoji": "📥", "staffOnly": true },
-            { "name": "Investigating", "emoji": "🔍", "staffOnly": true },
-            { "name": "Fixed", "emoji": "✅", "staffOnly": true },
-            { "name": "Can't reproduce", "emoji": "❔", "staffOnly": true }
+            {
+              "name": "Install"
+            },
+            {
+              "name": "Integration"
+            },
+            {
+              "name": "UI"
+            },
+            {
+              "name": "Data"
+            },
+            {
+              "name": "Other"
+            },
+            {
+              "name": "Received",
+              "emoji": "📥",
+              "staffOnly": true
+            },
+            {
+              "name": "Investigating",
+              "emoji": "🔍",
+              "staffOnly": true
+            },
+            {
+              "name": "Fixed",
+              "emoji": "✅",
+              "staffOnly": true
+            },
+            {
+              "name": "Can't reproduce",
+              "emoji": "❔",
+              "staffOnly": true
+            }
           ]
         },
         {
@@ -59,11 +120,38 @@
           "reaction": "👍",
           "topic": "One idea = one post. \"I was trying to do X, and Y gets in the way\" helps us understand fastest.\n\nAgree with someone's idea? Hit 👍. We review the most-voted first.\nThe team sets the status tags (🔎 Reviewing · 📅 Planned · ✅ Shipped · 💤 On hold).",
           "tags": [
-            { "name": "New feature" }, { "name": "Improvement" }, { "name": "Integration" }, { "name": "Other" },
-            { "name": "Reviewing", "emoji": "🔎", "staffOnly": true },
-            { "name": "Planned", "emoji": "📅", "staffOnly": true },
-            { "name": "Shipped", "emoji": "✅", "staffOnly": true },
-            { "name": "On hold", "emoji": "💤", "staffOnly": true }
+            {
+              "name": "New feature"
+            },
+            {
+              "name": "Improvement"
+            },
+            {
+              "name": "Integration"
+            },
+            {
+              "name": "Other"
+            },
+            {
+              "name": "Reviewing",
+              "emoji": "🔎",
+              "staffOnly": true
+            },
+            {
+              "name": "Planned",
+              "emoji": "📅",
+              "staffOnly": true
+            },
+            {
+              "name": "Shipped",
+              "emoji": "✅",
+              "staffOnly": true
+            },
+            {
+              "name": "On hold",
+              "emoji": "💤",
+              "staffOnly": true
+            }
           ]
         },
         {
@@ -72,37 +160,93 @@
           "type": "forum",
           "topic": "How-to, setup and account questions go here. Search first; someone may have asked already. Answers become our FAQ.\nThe team tags ✅ Solved when it's answered.",
           "tags": [
-            { "name": "Setup" }, { "name": "How-to" }, { "name": "Account" }, { "name": "Other" },
-            { "name": "Solved", "emoji": "✅", "staffOnly": true }
+            {
+              "name": "Setup"
+            },
+            {
+              "name": "How-to"
+            },
+            {
+              "name": "Account"
+            },
+            {
+              "name": "Other"
+            },
+            {
+              "name": "Solved",
+              "emoji": "✅",
+              "staffOnly": true
+            }
           ]
         },
-        { "key": "showcase", "name": "🙌show-and-tell", "type": "text", "topic": "Share what you liked and how you're using it. Screenshots welcome!" },
-        { "key": "lounge", "name": "💬lounge", "type": "text", "topic": "Say hi, chat about anything." },
-        { "key": "office", "name": "🎧office-hours", "type": "voice" }
+        {
+          "key": "showcase",
+          "name": "🙌show-and-tell",
+          "type": "text",
+          "topic": "Share what you liked and how you're using it. Screenshots welcome!"
+        },
+        {
+          "key": "lounge",
+          "name": "💬lounge",
+          "type": "text",
+          "topic": "Say hi, chat about anything."
+        },
+        {
+          "key": "office",
+          "name": "🎧office-hours",
+          "type": "voice"
+        }
       ]
     },
     {
       "key": "ops",
       "name": "🛠️ Team",
-      "visibleTo": ["staff"],
+      "visibleTo": [
+        "staff"
+      ],
       "channels": [
-        { "key": "ops-log", "name": "🤖ops-log", "type": "text", "topic": "Team only. Bot logs and Discord community notices land here." }
+        {
+          "key": "ops-log",
+          "name": "🤖ops-log",
+          "type": "text",
+          "topic": "Team only. Bot logs and Discord community notices land here."
+        }
       ]
     }
   ],
   "messages": [
-    { "key": "welcome", "channel": "welcome", "file": "content/welcome.md" }
+    {
+      "key": "welcome",
+      "channel": "welcome",
+      "file": "content/welcome.md"
+    }
   ],
   "welcomeScreen": {
     "description": "Welcome to the closed beta. What you tell us here becomes the product.",
     "channels": [
-      { "channel": "welcome", "emoji": "👋", "description": "Start here" },
-      { "channel": "bugs", "emoji": "🐛", "description": "Report a bug" },
-      { "channel": "ideas", "emoji": "💡", "description": "Request a feature" },
-      { "channel": "qna", "emoji": "❓", "description": "Ask a question" },
-      { "channel": "lounge", "emoji": "💬", "description": "Say hi" }
+      {
+        "channel": "welcome",
+        "emoji": "👋",
+        "description": "Start here"
+      },
+      {
+        "channel": "notice",
+        "emoji": "📣",
+        "description": "Beta schedule and news"
+      }
     ]
   },
-  "invite": { "channel": "welcome", "roles": ["tester"], "maxUses": 1, "days": 7 },
-  "feedback": ["bugs", "ideas", "qna"]
+  "invite": {
+    "channel": "welcome",
+    "roles": [
+      "tester"
+    ],
+    "maxUses": 1,
+    "days": 7
+  },
+  "feedback": [
+    "bugs",
+    "ideas",
+    "qna"
+  ]
 }

@@ -11,9 +11,10 @@ const LIMITED = (1 << 13) | (1 << 15) | (1 << 19)
 const err = (status, code, message) => Object.assign(new Error(message), { status, code })
 const iso = () => new Date().toISOString()
 
-// strictWelcome: 환영 화면에 @everyone 이 못 보는 채널을 넣으면 거절 (그럴 수도 있는 경우를 재현)
+// 실측(2026-10-12)대로: 환영 화면에 @everyone 이 못 보는 채널을 넣으면 거절(WELCOME_CHANNEL_PERMISSIONS_REQUIRED) ·
+// 새 역할은 position 1 로 생기고 다른 역할을 밀어 올리지 않는다(같은 순번이면 먼저 만든 역할이 위)
 // joined: false 면 봇이 아직 서버에 없다 (inviteBot() 으로 들인다)
-export function createFakeDiscord({ guildName = 'my-server', strictWelcome = false, joined = true } = {}) {
+export function createFakeDiscord({ guildName = 'my-server', strictWelcome = true, joined = true } = {}) {
   let seq = 0n
   const snow = (offsetMs = 0) => String(((BigInt(Date.now() + offsetMs) - EPOCH) << 22n) + (seq++ % 4096n))
   const gid = snow()
@@ -70,7 +71,9 @@ export function createFakeDiscord({ guildName = 'my-server', strictWelcome = fal
   }
   const findMsg = (c, id) => (db.messages.get(c) ?? []).find((m) => m.id === id)
   const redact = (m) => (m.author.id === botId || db.app.flags & CONTENT_INTENT ? m : { ...m, content: '', attachments: [], embeds: [] })
-  const botTop = () => Math.max(...member(botId).roles.map((r) => db.roles.find((x) => x.id === r)?.position ?? 0))
+  // 디스코드 위계: position 이 크면 위, 같으면 먼저 만든(ID 가 작은) 역할이 위
+  const above = (a, b) => a.position > b.position || (a.position === b.position && BigInt(a.id) < BigInt(b.id))
+  const botTopRole = () => db.roles.filter((r) => member(botId).roles.includes(r.id)).reduce((a, b) => (above(a, b) ? a : b))
   const hiddenFromEveryone = (c) =>
     [c, byId(c?.parent_id)].some((x) => x && (BigInt(x.permission_overwrites.find((o) => o.id === gid)?.deny ?? '0') & (1n << 10n)))
 
@@ -121,7 +124,6 @@ export function createFakeDiscord({ guildName = 'my-server', strictWelcome = fal
 
     if (is('GET', /^\/guilds\/(\d+)\/roles$/)) return db.roles
     if (is('POST', /^\/guilds\/(\d+)\/roles$/)) {
-      for (const r of db.roles) if (r.position >= 1) r.position++
       const role = {
         id: snow(), name: body.name, permissions: body.permissions ?? '0', position: 1,
         color: body.colors?.primary_color ?? 0, colors: body.colors, hoist: !!body.hoist, mentionable: !!body.mentionable, managed: false,
@@ -205,7 +207,7 @@ export function createFakeDiscord({ guildName = 'my-server', strictWelcome = fal
       if (body.max_age > 604800) throw err(400, 50035, 'max_age too long')
       const roles = (body.role_ids ?? []).map((id) => {
         const r = db.roles.find((x) => x.id === id)
-        if (r.position >= botTop()) throw err(403, 50013, 'Missing Permissions')
+        if (!above(botTopRole(), r)) throw err(403, 50013, 'Missing Permissions')
         return { id: r.id, name: r.name }
       })
       const inv = {
@@ -228,7 +230,7 @@ export function createFakeDiscord({ guildName = 'my-server', strictWelcome = fal
     if (is('PATCH', /^\/guilds\/(\d+)\/welcome-screen$/)) {
       if (!db.guild.features.includes('COMMUNITY')) throw err(400, 50035, 'welcome screen needs community')
       if (strictWelcome && body.welcome_channels.some((w) => hiddenFromEveryone(byId(w.channel_id)))) {
-        throw err(400, 50035, 'welcome channel must be visible to everyone')
+        throw err(400, 50035, 'Invalid Form Body')
       }
       db.welcome = { description: body.description, welcome_channels: body.welcome_channels }
       if (body.enabled) db.guild.features = [...new Set([...db.guild.features, 'WELCOME_SCREEN_ENABLED'])]
@@ -253,7 +255,7 @@ export function createFakeDiscord({ guildName = 'my-server', strictWelcome = fal
     if (is('PUT', /^\/guilds\/(\d+)\/members\/(\d+)\/roles\/(\d+)$/)) {
       const role = db.roles.find((r) => r.id === m[3])
       if (!role) throw err(404, 10011, 'Unknown Role')
-      if (role.position >= botTop()) throw err(403, 50013, 'Missing Permissions')
+      if (!above(botTopRole(), role)) throw err(403, 50013, 'Missing Permissions')
       const x = member(m[2])
       if (!x.roles.includes(m[3])) x.roles.push(m[3])
       return undefined

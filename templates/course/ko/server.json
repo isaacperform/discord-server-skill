@@ -20,24 +20,55 @@
     "site": "https://example.com"
   },
   "roles": {
-    "staff": { "name": "🛠️ 운영진", "color": "#F2A65A", "hoist": true, "staff": true, "giveOwner": true, "permissions": "moderator" },
-    "student": { "name": "🎓 수강생", "color": "#3BA9F0", "hoist": true }
+    "staff": {
+      "name": "🛠️ 운영진",
+      "color": "#F2A65A",
+      "hoist": true,
+      "staff": true,
+      "giveOwner": true,
+      "permissions": "moderator"
+    },
+    "student": {
+      "name": "🎓 수강생",
+      "color": "#3BA9F0",
+      "hoist": true
+    }
   },
   "categories": [
     {
       "key": "start",
       "name": "📌 시작",
       "channels": [
-        { "key": "welcome", "name": "👋환영-시작하기", "type": "text", "readonly": true, "topic": "처음 오셨다면 아래 안내부터 읽어 주세요." },
-        { "key": "notice", "name": "📣공지", "type": "announcement", "readonly": true, "topic": "일정·라이브·과제 마감처럼 꼭 봐야 하는 것만 올려요." }
+        {
+          "key": "welcome",
+          "name": "👋환영-시작하기",
+          "type": "text",
+          "readonly": true,
+          "topic": "처음 오셨다면 아래 안내부터 읽어 주세요."
+        },
+        {
+          "key": "notice",
+          "name": "📣공지",
+          "type": "announcement",
+          "readonly": true,
+          "topic": "일정·라이브·과제 마감처럼 꼭 봐야 하는 것만 올려요."
+        }
       ]
     },
     {
       "key": "class",
       "name": "📚 강의",
-      "visibleTo": ["student"],
+      "visibleTo": [
+        "student"
+      ],
       "channels": [
-        { "key": "curriculum", "name": "🗺️커리큘럼", "type": "text", "readonly": true, "topic": "전체 강의 목차 — 여기서부터 따라오세요." },
+        {
+          "key": "curriculum",
+          "name": "🗺️커리큘럼",
+          "type": "text",
+          "readonly": true,
+          "topic": "전체 강의 목차 — 여기서부터 따라오세요."
+        },
         {
           "key": "lessons",
           "name": "📚강의-자료",
@@ -46,8 +77,23 @@
           "sort": "created",
           "topic": "강의 하나 = 글 하나. 운영진이 올리고, 질문·후기는 각 글 아래 댓글로 남겨 주세요.",
           "tags": [
-            { "name": "강의" }, { "name": "자료" }, { "name": "녹화본" }, { "name": "과제 안내" },
-            { "name": "NEW", "emoji": "🆕", "staffOnly": true }
+            {
+              "name": "강의"
+            },
+            {
+              "name": "자료"
+            },
+            {
+              "name": "녹화본"
+            },
+            {
+              "name": "과제 안내"
+            },
+            {
+              "name": "NEW",
+              "emoji": "🆕",
+              "staffOnly": true
+            }
           ]
         },
         {
@@ -56,9 +102,22 @@
           "type": "forum",
           "topic": "과제 하나 = 글 하나. 제목은 \"[과제 이름] 내 이름\"으로 써 주세요. 피드백은 이 글에 달려요.",
           "tags": [
-            { "name": "제출" }, { "name": "재제출" },
-            { "name": "확인중", "emoji": "👀", "staffOnly": true },
-            { "name": "피드백 완료", "emoji": "✅", "staffOnly": true }
+            {
+              "name": "제출"
+            },
+            {
+              "name": "재제출"
+            },
+            {
+              "name": "확인중",
+              "emoji": "👀",
+              "staffOnly": true
+            },
+            {
+              "name": "피드백 완료",
+              "emoji": "✅",
+              "staffOnly": true
+            }
           ]
         },
         {
@@ -67,8 +126,20 @@
           "type": "forum",
           "topic": "강의·과제 질문은 여기로. 몇 강 몇 분인지 적어 주면 답이 빨라요. 비슷한 질문이 있는지 검색부터!\n해결되면 ✅ 해결됨 태그가 붙어요.",
           "tags": [
-            { "name": "강의" }, { "name": "과제" }, { "name": "기타" },
-            { "name": "해결됨", "emoji": "✅", "staffOnly": true }
+            {
+              "name": "강의"
+            },
+            {
+              "name": "과제"
+            },
+            {
+              "name": "기타"
+            },
+            {
+              "name": "해결됨",
+              "emoji": "✅",
+              "staffOnly": true
+            }
           ]
         }
       ]
@@ -76,36 +147,82 @@
     {
       "key": "together",
       "name": "💬 커뮤니티",
-      "visibleTo": ["student"],
+      "visibleTo": [
+        "student"
+      ],
       "channels": [
-        { "key": "lounge", "name": "💬잡담", "type": "text", "topic": "인사·잡담·스터디 모집." },
-        { "key": "wins", "name": "🏆성과-공유", "type": "text", "topic": "배운 걸 써 먹은 결과를 자랑해 주세요. 다음 기수에게 제일 큰 자극이 돼요." },
-        { "key": "live", "name": "🎥라이브-강의", "type": "voice" }
+        {
+          "key": "lounge",
+          "name": "💬잡담",
+          "type": "text",
+          "topic": "인사·잡담·스터디 모집."
+        },
+        {
+          "key": "wins",
+          "name": "🏆성과-공유",
+          "type": "text",
+          "topic": "배운 걸 써 먹은 결과를 자랑해 주세요. 다음 기수에게 제일 큰 자극이 돼요."
+        },
+        {
+          "key": "live",
+          "name": "🎥라이브-강의",
+          "type": "voice"
+        }
       ]
     },
     {
       "key": "ops",
       "name": "🛠️ 운영",
-      "visibleTo": ["staff"],
+      "visibleTo": [
+        "staff"
+      ],
       "channels": [
-        { "key": "ops-log", "name": "🤖운영-로그", "type": "text", "topic": "운영진 전용. 봇 기록과 디스코드 커뮤니티 안내가 여기로 와요." }
+        {
+          "key": "ops-log",
+          "name": "🤖운영-로그",
+          "type": "text",
+          "topic": "운영진 전용. 봇 기록과 디스코드 커뮤니티 안내가 여기로 와요."
+        }
       ]
     }
   ],
   "messages": [
-    { "key": "welcome", "channel": "welcome", "file": "content/welcome.md" },
-    { "key": "curriculum", "channel": "curriculum", "file": "content/curriculum.md" }
+    {
+      "key": "welcome",
+      "channel": "welcome",
+      "file": "content/welcome.md"
+    },
+    {
+      "key": "curriculum",
+      "channel": "curriculum",
+      "file": "content/curriculum.md"
+    }
   ],
   "welcomeScreen": {
-    "description": "수강을 환영해요! 커리큘럼부터 따라오세요.",
+    "description": "수강을 환영해요! 시작하는 법부터 읽어 주세요.",
     "channels": [
-      { "channel": "welcome", "emoji": "👋", "description": "시작하는 법" },
-      { "channel": "curriculum", "emoji": "🗺️", "description": "전체 강의 목차" },
-      { "channel": "lessons", "emoji": "📚", "description": "강의 자료" },
-      { "channel": "qna", "emoji": "❓", "description": "질문은 여기로" },
-      { "channel": "lounge", "emoji": "💬", "description": "동기들과 인사" }
+      {
+        "channel": "welcome",
+        "emoji": "👋",
+        "description": "시작하는 법"
+      },
+      {
+        "channel": "notice",
+        "emoji": "📣",
+        "description": "일정·라이브 공지"
+      }
     ]
   },
-  "invite": { "channel": "welcome", "roles": ["student"], "maxUses": 1, "days": 7 },
-  "feedback": ["qna", "homework"]
+  "invite": {
+    "channel": "welcome",
+    "roles": [
+      "student"
+    ],
+    "maxUses": 1,
+    "days": 7
+  },
+  "feedback": [
+    "qna",
+    "homework"
+  ]
 }

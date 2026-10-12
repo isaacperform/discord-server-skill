@@ -479,13 +479,22 @@ async function sortChannels(ctx, g, s) {
   await ctx.req('PATCH', `/guilds/${g.gid}/channels`, order)
 }
 
-// 봇은 자기 최상위 역할보다 아래 역할만 부여할 수 있다 — 초대 링크의 역할 자동 부여도 같다
+// 봇은 자기 최상위 역할보다 아래 역할만 부여할 수 있다 — 초대 링크의 역할 자동 부여도 같다.
+// 디스코드 위계: position 이 크면 위, 같으면 먼저 만든(ID 가 작은) 역할이 위. 새 역할은 맨 아래 순번(1)으로
+// 생기고 다른 역할을 밀어 올리지 않아서 봇 역할과 순번이 같아지는 게 보통이다 — 그래도 봇이 먼저 들어왔으면 봇이 위다 (실측)
+export const roleAbove = (a, b) => a.position > b.position || (a.position === b.position && BigInt(a.id) < BigInt(b.id))
 async function botRoleProblems(ctx, gid, meId, roleIds) {
   const roles = await ctx.req('GET', `/guilds/${gid}/roles`)
   const me = await ctx.req('GET', `/guilds/${gid}/members/${meId}`)
-  const pos = (id) => roles.find((r) => r.id === id)?.position ?? 0
-  const top = Math.max(0, ...me.roles.map(pos))
-  return roleIds.filter(([, id]) => id && pos(id) >= top).map(([name]) => name)
+  const mine = roles.filter((r) => me.roles.includes(r.id))
+  if (!mine.length) return roleIds.filter(([, id]) => id).map(([name]) => name)
+  const top = mine.reduce((a, b) => (roleAbove(a, b) ? a : b))
+  return roleIds
+    .filter(([, id]) => {
+      const r = roles.find((x) => x.id === id)
+      return r && !roleAbove(top, r)
+    })
+    .map(([name]) => name)
 }
 
 async function cmdSetup(ctx) {

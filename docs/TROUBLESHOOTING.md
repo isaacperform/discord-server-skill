@@ -32,7 +32,8 @@
 | 특권 인텐트를 API 로 못 켰다 | 봇이 100개 넘는 서버에 있거나 디스코드가 거절 | 개발자 포털 → Bot → Privileged Gateway Intents → **SERVER MEMBERS INTENT** · **MESSAGE CONTENT INTENT** 켜고 Save |
 | `50024` 공지 채널을 못 만듦 | 커뮤니티 서버가 아니다 | `server.community: true` + `rulesChannel`·`updatesChannel` 지정 → setup 이 커뮤니티를 켠다 |
 | `60003 Two factor is required` | 서버가 관리 작업에 2단계 인증을 요구 | 봇을 만든 디스코드 계정에 2단계 인증을 켜거나, 서버 설정 → 안전 설정에서 요구를 끈다 |
-| 환영 화면이 일부 채널만 나옴 | 디스코드가 역할로 가린 채널을 환영 화면에 거절 | 정상 동작 — 모두가 보는 채널만 넣었다. 다 넣으려면 그 채널을 `visibleTo: "everyone"` 으로 |
+| 환영 화면이 일부 채널만 나옴 · `WELCOME_CHANNEL_PERMISSIONS_REQUIRED` | 디스코드 규칙: 환영 화면 채널은 모두가 읽을 수 있어야 한다 | 정상 동작 — 가린 채널은 빼고 걸었다. 넣으려면 그 채널을 `visibleTo: "everyone"` 으로 |
+| `doctor`: 봇 역할이 ○○ 보다 아래 | 사람이 디스코드에서 먼저 만든 역할이 봇 역할보다 위 (봇은 자기보다 아래 역할만 부여) | 서버 설정 → 역할에서 봇 역할을 그 위로 끌어 올린다. setup 이 만든 역할은 해당 없음 — 같은 순번이면 먼저 들어온 봇이 위다 |
 | 채널이 두 번 생김 | `state.json` 을 지웠거나 다른 프로필로 돌렸다 | 중복된 것을 디스코드에서 지우고 `ds adopt --force` 로 다시 묶거나 state.json 복구 |
 | setup 이 손으로 바꾼 권한을 되돌림 | 설계도가 원천이다 | 원하는 규칙을 server.json 에 쓰고 setup. 손으로만 바꾸지 않는다 |
 | 서버 기본 채널(일반)이 남아 있음 | setup 은 지우지 않는다 | `ds prune` 으로 목록 확인 → `ds prune --yes` (서버와 같이 생긴 기본 채널 + 사람 메시지 0 만 지운다) |

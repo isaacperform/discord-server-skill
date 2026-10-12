@@ -291,7 +291,16 @@ export function validate(s, dir) {
     if (!s.server.community) E('welcomeScreen 은 커뮤니티 서버에서만 써요 — server.community 를 true 로')
     if (String(w.description ?? '').length > 140) E('welcomeScreen.description 은 140자까지예요')
     if ((w.channels ?? []).length > 5) E('welcomeScreen.channels 는 5개까지예요')
-    for (const c of w.channels ?? []) if (!findChannel(s, c.channel)) E(`welcomeScreen: 채널 '${c.channel}' 이 없어요`)
+    for (const c of w.channels ?? []) {
+      const ch = findChannel(s, c.channel)
+      if (!ch) {
+        E(`welcomeScreen: 채널 '${c.channel}' 이 없어요`)
+        continue
+      }
+      const cat = s.categories.find((x) => x.channels.includes(ch))
+      const hidden = accessRules(s, cat, ch).some(([t, r]) => t === '@everyone' && (r.deny ?? []).includes('VIEW_CHANNEL'))
+      if (hidden) W(`welcomeScreen: '${c.channel}' 는 역할로 가려져 있어 빠져요 — 디스코드 규칙: 환영 화면 채널은 모두가 읽을 수 있어야 해요`)
+    }
   }
 
   const inv = s.invite

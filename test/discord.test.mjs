@@ -223,7 +223,7 @@ test('setup — 빈 서버를 설계도대로 세운다', async () => {
   assert.ok(w.content.includes(`<#${s.channels.bugs}>`) && w.content.includes('https://my-app.test') && !w.content.includes('{{'))
   assert.equal(w.flags & 4, 4, '고정 글은 링크 미리보기를 끈다')
   assert.ok(db.members.find((m) => m.user.id === db.guild.owner_id).roles.includes(s.roles.staff))
-  assert.equal(db.welcome.welcome_channels.length, 5)
+  assert.equal(db.welcome.welcome_channels.length, 2, '가린 서버의 환영 화면은 모두가 보는 채널만')
   assert.ok(fake.byId(s.categories.start).position < fake.byId(s.categories.beta).position)
   assert.equal(db.app.description, spec('beta').bot.description)
 })
@@ -432,12 +432,16 @@ test('course 템플릿 (영어) — 고정 글 2개, 수강생만 강의실, 다
   assert.deepEqual(writesSince(f, n), [])
 })
 
-test('환영 화면이 가린 채널을 거절해도 나머지는 끝까지, 다시 돌리면 쓰기 0번', async () => {
-  const f = await freshServer('strict', 'closed-beta', { strictWelcome: true })
+test('환영 화면에 가린 채널을 넣어도 — 검사가 미리 경고하고, 디스코드가 거절하면 모두가 보는 채널만으로 — 나머지는 끝까지, 다시 돌리면 쓰기 0번', async () => {
+  const f = await freshServer('strict', 'closed-beta')
+  const sj = spec('strict')
+  sj.welcomeScreen.channels.push({ channel: 'lounge', emoji: '💬', description: '인사' })
+  writeFileSync(join(dir('strict'), 'server.json'), JSON.stringify(sj, null, 2))
   const out = await cli('setup', '--profile', 'strict')
+  assert.match(out, /'lounge' 는 역할로 가려져 있어 빠져요/)
   assert.match(out, /모두가 보는 채널만/)
   const s = state('strict')
-  assert.deepEqual(f.db.welcome.welcome_channels.map((w) => w.channel_id), [s.channels.welcome])
+  assert.deepEqual(f.db.welcome.welcome_channels.map((w) => w.channel_id), [s.channels.welcome, s.channels.notice])
   assert.equal(f.db.messages.get(s.channels.welcome).length, 1)
   const n = f.db.calls.length
   await cli('setup', '--profile', 'strict')
