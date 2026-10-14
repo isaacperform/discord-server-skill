@@ -50,6 +50,7 @@
 | 초대를 7일 넘게 못 만듦 | 디스코드 한도 | `--days 0` = 만료 없음 |
 | 보관된 포럼 글 태그가 안 바뀜 | 보관 스레드는 꺼내야 고칠 수 있다 | `ds tag` 가 알아서 꺼낸다 · 잠긴 글은 `--open` |
 | 웹훅 이름 거절 | 이름에 `discord`·`clyde` 금지 | 다른 이름으로 |
+| 서버·봇·앱 이름 바꾸기 | 셋이 따로다 | 서버 `ds rename <이름>` · 봇 `ds api PATCH /users/@me '{"username":"새이름"}'` (시간당 2번) · **앱 이름은 API 로 안 바뀐다**(조용히 무시) → 개발자 포털 → General Information → Name → Save Changes |
 | 고정(pin) 실패 | 2026-02-23 부터 `PIN_MESSAGES` 권한이 따로 분리 | 봇이 관리자면 해당 없음. 운영진 역할에는 `moderator` 프리셋에 들어 있다 |
 
 ## 네트워크
