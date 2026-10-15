@@ -12,6 +12,7 @@ import { createFakeDiscord } from './fake-discord.mjs'
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const home = mkdtempSync(join(tmpdir(), 'discord-server-test-'))
 process.env.DISCORD_SERVER_HOME = home
+process.env.DISCORD_SERVER_NO_CLIPBOARD = '1' // 웹훅 주소를 개발자의 진짜 클립보드에 쓰지 않게
 for (const k of ['DISCORD_BOT_TOKEN', 'DISCORD_PROFILE', 'DISCORD_SERVER_DIR']) delete process.env[k]
 
 let fake = createFakeDiscord({ joined: false })
@@ -346,9 +347,15 @@ test('grant · revoke · members — 이름으로 찾아 역할을 붙이고 떼
 test('webhook · icon · avatar · rename — 연동과 꾸미기', async () => {
   await assert.rejects(cli('webhook', 'ops-log', '--name', 'discord-bot', '--profile', 'beta'), /discord/)
   const out = await cli('webhook', 'ops-log', '--name', '가입 알림', '--profile', 'beta')
-  assert.match(out, /discord\.com\/api\/webhooks\/\d+\/wh\d+/)
+  assert.ok(!out.includes(fake.db.webhooks[0].token), '만들 때도 주소(토큰)를 화면에 찍지 않는다 — 대화 기록에 남지 않게')
+  assert.match(out, /discord\.com\/api\/webhooks\/\d+\/wh\d{0,3}…/)
+  assert.match(out, /--raw/)
+  const raw = await cli('webhook', 'ops-log', '--name', '결제 알림', '--raw', '--profile', 'beta')
+  assert.equal(raw, `https://discord.com/api/webhooks/${fake.db.webhooks[1].id}/${fake.db.webhooks[1].token}`, '--raw 는 주소 한 줄만 (파이프용)')
+  assert.ok((await cli('webhook', 'ops-log', '--name', '보기', '--reveal', '--profile', 'beta')).includes(fake.db.webhooks[2].token), '--reveal 은 그대로 보여 준다')
   assert.ok(!(await cli('webhooks', '--profile', 'beta')).includes(fake.db.webhooks[0].token), '목록에선 토큰을 가린다')
-  await cli('unwebhook', fake.db.webhooks[0].id, '--profile', 'beta')
+  assert.ok((await cli('webhooks', '--reveal', '--profile', 'beta')).includes(fake.db.webhooks[0].token))
+  for (const hook of [...fake.db.webhooks]) await cli('unwebhook', hook.id, '--profile', 'beta')
   assert.equal(fake.db.webhooks.length, 0)
   const png = join(home, 'icon.png')
   writeFileSync(png, Buffer.from('89504e470d0a1a0a0000000d49484452', 'hex'))

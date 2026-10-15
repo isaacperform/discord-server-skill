@@ -15,7 +15,7 @@ import { homedir } from 'node:os'
 import { dirname, extname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { API_BASE, ApiError, HdError, HINT_NETWORK, createApi, fail, installUrl } from './lib/api.mjs'
-import { clearClipboard, looksLikeBotToken, promptHidden, readClipboard } from './lib/clipboard.mjs'
+import { clearClipboard, looksLikeBotToken, promptHidden, readClipboard, writeClipboard } from './lib/clipboard.mjs'
 import { ADMIN, permNames } from './lib/perms.mjs'
 import {
   TYPES, TYPE_NAMES, KEY_RE, accessRules, allChannels, buildOverwrites, colorInt, everyonePerms, findChannel,
@@ -1319,8 +1319,22 @@ async function cmdWebhook(ctx, args, opts) {
   const name = String(opts.name ?? 'app').slice(0, 80)
   if (/discord|clyde/i.test(name)) fail("웹훅 이름에 'discord'·'clyde' 는 못 써요 (디스코드 규칙)")
   const wh = await ctx.req('POST', `/channels/${chId}/webhooks`, { name })
+  const url = `https://discord.com/api/webhooks/${wh.id}/${wh.token}`
+  // 주소 = 비밀번호. 화면에 찍으면 터미널 기록·AI 대화 기록에 남는다 — 기본은 가리고 클립보드로, 파이프용은 --raw, 꼭 봐야 하면 --reveal
+  if (opts.raw) {
+    log(url)
+    console.error(`웹훅 만듦: ${wh.name} (${wh.id}) — 주소는 표준 출력으로만 내보냈어요 (예: … --raw | npx wrangler secret put DISCORD_WEBHOOK_URL)`)
+    return
+  }
   log(`웹훅 만듦: ${wh.name} (${wh.id})`)
-  log(`URL: https://discord.com/api/webhooks/${wh.id}/${wh.token}`)
+  if (opts.reveal) {
+    log(`URL: ${url}`)
+  } else {
+    log(`URL: https://discord.com/api/webhooks/${wh.id}/${wh.token.slice(0, 4)}…`)
+    log(writeClipboard(url)
+      ? '전체 주소를 클립보드에 복사했어요 — 앱의 환경변수(.env)·비밀값에 붙여 넣은 뒤 클립보드를 비우세요'
+      : '전체 주소는 화면에 찍지 않았어요 — --raw 로 다른 명령에 바로 넘기거나(… --raw | npx wrangler secret put DISCORD_WEBHOOK_URL) --reveal 로 보세요')
+  }
   log('⚠️  이 주소를 아는 사람은 누구나 이 채널에 글을 쓸 수 있어요 — 내 앱의 환경변수(.env)에만 넣고 공개 저장소·채팅에 올리지 마세요')
   log(`보내기 예: curl -H "Content-Type: application/json" -d '{"content":"새 가입 1건"}' "<URL>"`)
 }
@@ -1330,10 +1344,11 @@ async function cmdWebhooks(ctx, _args, opts) {
   const list = await ctx.req('GET', `/guilds/${gid}/webhooks`)
   if (!list.length) return log('웹훅 없음')
   for (const w of list) {
-    const url = w.token ? `https://discord.com/api/webhooks/${w.id}/${opts.show ? w.token : `${w.token.slice(0, 4)}…`}` : '(토큰 없음 — 다른 앱이 만든 웹훅)'
+    const reveal = opts.reveal || opts.show
+    const url = w.token ? `https://discord.com/api/webhooks/${w.id}/${reveal ? w.token : `${w.token.slice(0, 4)}…`}` : '(토큰 없음 — 다른 앱이 만든 웹훅)'
     log(`${w.id}  ${w.name}  채널 ${w.channel_id}  ${url}`)
   }
-  if (!opts.show) log('\n전체 주소가 필요하면 --show (주소는 비밀번호처럼 다루세요)')
+  if (!opts.reveal && !opts.show) log('\n전체 주소가 필요하면 --reveal (주소는 비밀번호처럼 다루세요 — 화면에 찍으면 대화 기록에 남아요)')
 }
 
 async function cmdUnwebhook(ctx, args) {
@@ -1392,13 +1407,13 @@ const HELP = `discord-server ${VERSION} — 말로 디스코드 서버를 만들
   tag <스레드ID> <+태그,-태그> [--close|--open]
 
 연동 · 원시 REST
-  webhook <채널> [--name 이름] · webhooks [--show] · unwebhook <ID>
+  webhook <채널> [--name 이름] [--raw | --reveal] · webhooks [--reveal] · unwebhook <ID>
   api <METHOD> <경로> [JSON|@파일]   {guild}·{app} 치환. 예) api GET /guilds/{guild}/roles
 
 공통: --profile <이름> (서버가 여럿일 때) · --guild <서버ID> · --dir <폴더>
 채널 지정: server.json 의 key · 이름 일부 · ID · <#ID>`
 
-const BOOL_FLAGS = new Set(['dry', 'ping', 'pin', 'silent', 'noembed', 'yes', 'all', 'close', 'open', 'force', 'stdin', 'prompt', 'show', 'help'])
+const BOOL_FLAGS = new Set(['dry', 'ping', 'pin', 'silent', 'noembed', 'yes', 'all', 'close', 'open', 'force', 'stdin', 'prompt', 'show', 'reveal', 'raw', 'help'])
 export function parseArgs(argv) {
   const args = []
   const opts = {}

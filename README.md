@@ -130,7 +130,7 @@ node ~/.claude/skills/discord-server/scripts/discord.mjs help
 | `invite` · `invites` · `uninvite` | 역할 붙는 초대 링크와 현황 |
 | `members` · `grant` · `revoke` | 멤버와 역할 |
 | `feedback` · `read` · `tag` | 포럼 피드백 읽기 · 상태 태그 |
-| `webhook` · `webhooks` · `unwebhook` | 내 앱 → 디스코드 알림 주소 |
+| `webhook` · `webhooks` · `unwebhook` | 내 앱 → 디스코드 알림 주소 (주소는 가려서 보여 주고 클립보드로 · `--raw` 파이프용 · `--reveal`) |
 | `rename` · `icon` · `avatar` | 서버 이름 · 아이콘 · 봇 사진 |
 | `api <METHOD> <경로>` | 그 밖의 모든 디스코드 API |
 

@@ -54,7 +54,7 @@ node "${CLAUDE_SKILL_DIR}/scripts/discord.mjs" <명령> [--profile 이름]
 | 초대 현황 · 멤버 | `ds invites` · `ds members` · `ds grant <멤버> <역할key>` · `ds revoke …` |
 | 피드백 모아 읽기 | `ds feedback --days 7` (`--all` 보관 글까지 · `--forum <key>`) · `ds read <채널|스레드ID>` |
 | 상태 태그 | `ds tag <스레드ID> +해결됨 --close` (운영진 전용 태그는 하나만 남는다) |
-| 앱 → 디스코드 알림 | `ds webhook <채널> --name 가입알림` → 나온 URL 을 앱 환경변수에 |
+| 앱 → 디스코드 알림 | `ds webhook <채널> --name 가입알림 --raw \| npx wrangler secret put DISCORD_WEBHOOK_URL` 처럼 **파이프로 바로 비밀값에** (주소 = 비밀번호 — 화면에 찍으면 대화 기록에 남는다). 파이프할 곳이 없으면 그냥 실행: 가린 주소만 보이고 전체는 클립보드로. `--reveal` 은 사람이 꼭 봐야 할 때만 |
 | 이름 · 아이콘 | `ds rename <이름>` · `ds icon <이미지>` · `ds avatar <이미지>` |
 | 그 밖의 모든 것 | `ds api <METHOD> <경로> [JSON|@파일]` — `{guild}`·`{app}` 치환 ([Discord API](https://docs.discord.com/developers/reference)) |
 

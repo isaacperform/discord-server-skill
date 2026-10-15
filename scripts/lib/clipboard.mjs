@@ -61,6 +61,29 @@ export function readClipboard() {
   }
 }
 
+function writers() {
+  if (process.platform === 'darwin') return [['pbcopy', []]]
+  if (process.platform === 'win32' || isWsl()) return [['clip.exe', []]]
+  return [
+    ['wl-copy', []],
+    ['xclip', ['-selection', 'clipboard']],
+    ['xsel', ['--clipboard', '--input']],
+  ]
+}
+
+// 웹훅 주소처럼 화면(=대화 기록)에 남기면 안 되는 값을 클립보드로 넘긴다. 못 하면 false.
+// DISCORD_SERVER_NO_CLIPBOARD=1 이면 건드리지 않는다 (테스트 · 클립보드를 쓰면 안 되는 환경)
+export function writeClipboard(text) {
+  if (process.env.DISCORD_SERVER_NO_CLIPBOARD === '1') return false
+  for (const [cmd, args] of writers()) {
+    try {
+      execFileSync(cmd, args, { input: text, stdio: ['pipe', 'ignore', 'ignore'], timeout: 8000 })
+      return true
+    } catch {}
+  }
+  return false
+}
+
 export function clearClipboard() {
   for (const [cmd, args, input] of clearers()) {
     try {
